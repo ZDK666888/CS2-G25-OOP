@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 
 class BaseRecord:
@@ -8,7 +8,8 @@ class BaseRecord:
         self.updated_at = self.created_at
 
     def touch(self):
-        self.updated_at = datetime.now(timezone.utc)
+        now = datetime.now(timezone.utc)
+        self.updated_at = max(now, self.updated_at + timedelta(microseconds=1))
 
     def to_dict(self):
         return {
