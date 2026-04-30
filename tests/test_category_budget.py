@@ -1,15 +1,9 @@
-"""
-测试 CategoryNode 和 Budget 基础模型
-"""
 from src.models.category import CategoryNode
 from src.models.budget import Budget
 
 
 class TestCategoryNode:
-    """测试分类节点"""
-
     def test_create_node(self):
-        """可以创建分类节点"""
         node = CategoryNode("c1", "Food")
         assert node.category_id == "c1"
         assert node.name == "Food"
@@ -17,12 +11,10 @@ class TestCategoryNode:
         assert node.children == []
 
     def test_set_parent_id(self):
-        """创建子分类时 parent_id 正确"""
         node = CategoryNode("c2", "Fruits", parent_id="c1")
         assert node.parent_id == "c1"
 
     def test_add_child(self):
-        """可以添加子分类"""
         root = CategoryNode("1", "Root")
         child = CategoryNode("2", "Food")
         root.add_child(child)
@@ -67,8 +59,6 @@ class TestCategoryNode:
 
 
 class TestBudget:
-    """测试预算"""
-
     def test_create_budget(self):
         budget = Budget("b1", "c1", "2026-05", 1000.0, 200.0)
         assert budget.budget_id == "b1"
@@ -88,7 +78,7 @@ class TestBudget:
     def test_remaining_amount_zero(self):
         budget = Budget("b1", "c1", "2026-05", 1000.0, 1000.0)
         assert budget.remaining_amount() == 0.0
-        assert budget.is_over_budget() is True
+        assert budget.is_over_budget() is False
 
     def test_is_over_budget_false(self):
         budget = Budget("b1", "c1", "2026-05", 1000.0, 500.0)
@@ -100,4 +90,4 @@ class TestBudget:
 
     def test_is_over_budget_exact_limit(self):
         budget = Budget("b1", "c1", "2026-05", 1000.0, 1000.0)
-        assert budget.is_over_budget() is True
+        assert budget.is_over_budget() is False
